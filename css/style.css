@@ -1,0 +1,16 @@
+.circular-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.row {
+    margin-bottom: 30px;
+}

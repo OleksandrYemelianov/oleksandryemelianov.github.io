@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Получаем все ссылки для смены языка
+    // Get all language switch links
     const langLinks = document.querySelectorAll('.nav-link.lang');
     const content = document.getElementById('content');
+    const loaderLayout = document.querySelector('.loader-wrapper')
 
-    // Инициализируем переменную для хранения состояния загрузки языков
+    // Initialize a variable to store the loaded languages state
     const loadedLanguages = {};
 
-    // Функция для закрытия мобильного меню после выбора языка
+    // Function to close the mobile menu after selecting a language
     const closeMobileMenu = () => {
         const navbarCollapse = document.getElementById('navbarNav');
         const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
@@ -19,24 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', async (e) => {
             e.preventDefault();
 
-            // Удаляем класс 'active' со всех ссылок
+            // Remove the 'active' class from all links
             langLinks.forEach(l => l.classList.remove('active'));
 
-            // Добавляем класс 'active' к выбранной ссылке
+            // Add the 'active' class to the selected link
             link.classList.add('active');
 
-            // Определяем язык из класса, например 'lang-en' -> 'en'
+            // Determine the language from the class, e.g., 'lang-en' -> 'en'
             const langClass = Array.from(link.classList).find(cls => cls.startsWith('lang-'));
             if (!langClass) {
-                console.error('Не удалось определить язык из класса ссылки.');
+                console.error('Failed to determine the language from the link class.');
                 return;
             }
             const lang = langClass.split('-')[1];
 
-            // Формируем путь к файлу языка
+            // Form the path to the language file
             const filePath = `langs/${lang}.html`;
 
-            // Проверяем, был ли уже загружен этот язык (кэширование)
+            // Check if this language has already been loaded (caching)
             if (loadedLanguages[lang]) {
                 content.innerHTML = loadedLanguages[lang];
                 closeMobileMenu();
@@ -44,36 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                // Отображаем индикатор загрузки
-                content.innerHTML = `
-                    <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">Загрузка...</span>
-                        </div>
-                    </div>
-                `;
+                // Display the loading indicator
+                loaderLayout.classList.remove('d-none');
 
-
-                // Загружаем контент
+                // Load the content
                 const response = await fetch(filePath);
                 if (!response.ok) {
-                    throw new Error(`Ошибка загрузки: ${response.status} ${response.statusText}`);
+                    throw new Error(`Loading error: ${response.status} ${response.statusText}`);
                 }
                 const html = await response.text();
 
-                // Вставляем загруженный контент
+                // Insert the loaded content
                 content.innerHTML = html;
+                loaderLayout.classList.add('d-none');
 
-                // Кэшируем загруженный язык
+                // Cache the loaded language
                 loadedLanguages[lang] = html;
-
-                // Закрываем мобильное меню, если оно было открыто
                 closeMobileMenu();
             } catch (error) {
-                console.error('Ошибка при загрузке файла языка:', error);
                 content.innerHTML = `
                     <div class="alert alert-danger" role="alert">
-                        Не удалось загрузить выбранный язык. Пожалуйста, попробуйте позже.
+                        Failed to load the selected language. Please try again later.
                     </div>
                 `;
             }

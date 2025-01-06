@@ -14,3 +14,65 @@
 .row {
     margin-bottom: 30px;
 }
+body {
+    background-color: #252A42;
+}
+.main-wrapper {
+    margin: 30px 0;
+    background-color: #ffffff;
+    border: 1px solid #252A42;
+    border-radius: 15px;
+    padding: 15px 30px;
+    color: #4f4f4f;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+}
+h2, h4, h6, a {
+    color: #5d6ba7;
+}
+h4 {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 1.125rem;
+    letter-spacing: 0.15rem;
+}
+h4::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 100%;
+    background: #5D6BA7;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+a {
+    text-decoration: none;
+    border-bottom: 1px dashed #5D6BA7;
+}
+.bi {
+    display: inline-block;
+    margin-right: 5px;
+}
+.lang.active, .lang:hover {
+    color: #5d6ba7!important;
+}
+.navbar > .container-fluid {
+    padding: 0 0 0 24px;
+}
+@media (max-width: 992px) {
+    .navbar .mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .navbar .mobile-menu.collapsing {
+        transition: height 0.35s ease;
+    }
+    .navbar .mobile-menu.show {
+        display: block !important;
+    }
+}
